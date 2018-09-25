@@ -1,142 +1,129 @@
-import * as React from 'react';
-import { Table, Button} from 'antd';
-import { connect } from 'react-redux';
-import { PHOTO_UPLOAD, PHOTO_UPLOAD_SUCCEEDED } from '../../constants';
+  import * as React from 'react';
+  import { Table, Button} from 'antd';
+  import { connect } from 'react-redux';
+  import { PHOTO_UPLOAD, PHOTO_UPLOAD_SUCCEEDED } from '../../constants';
+  import Dropzone from 'react-dropzone';
 
-class MainContent extends React.Component<any, any> {
-  
-  constructor(props) { 
-    super(props);
-    this.state = {
-      selectedRowKeys: [],
-      loading : false, 
-      data : [],
-      timestamp : 0 
-    };
-  }
-  
-  uploadPhoto = () => {  
-    this.props.onPhotoUpload('test');    
-  }
-  
-  componentDidUpdate()
-  {
-    let data = this.props.users;
-  }
-  
-  public render() {
+  class MainContent extends React.Component<any, any> {
     
-    let success = false;
-    var self = this;
+    constructor(props) { 
+      super(props);
+      this.state = {
+        loading : false,
+        files : []      
+      };
+    }
     
-    if (this.props.users)
+    uploadPhoto = async () => {        
+      let result = await this.executeFileUpload();
+      console.log(result);      
+    }
+    
+    async executeFileUpload() : Promise<string> { 
+      return Promise.resolve("http://lorempixel.com/800/100/cats/");
+    }
+    
+    prepareFileToUpload = (files) => {        
+      console.log(files);     
+      this.setState({
+        files
+      });  
+    }
+        
+    componentDidUpdate()
     {
-      //let data  = this.props.users;
-      if (this.props.success && this.props.success == true) {
-        
-        let usersData = this.props.users;        
-        
-        let stateTimestamp = this.state.timestamp; 
-        let propTimestamp = this.props.timestamp; 
-        
-        if (stateTimestamp != propTimestamp)
-        {
-          usersData.json().then(function(jsonData) { 
-            self.setState({
-              data : jsonData,
-              timestamp : propTimestamp           
-            });        
-          }); 
-        }
-      }  
-    }           
+      let data = this.props.users;
+    }
     
-    const { loading, selectedRowKeys } = this.state;  
-    const hasSelected = selectedRowKeys.length > 0;
-            
-    
-    return (   
+    public render() {
       
-      <div className="row">
-      <div className="col-md-12 col-sm-12 col-xs-12">
-      <div className="dashboard_graph">
+      var self = this;      
+      const { loading } = this.state;  
       
-      <div className="row x_title">
-      
-      <div className="col-md-2">
-      
-      </div>
-      <div className="col-md-4">
-      <h3> <small>  Upload photos  - select a photo, crop and upload it. 
-      
-      
-      </small></h3>
-      </div>
-      
-      <div className="col-md-6">          
-      <div id="reportrange" className="pull-right">
-      <i className="glyphicon glyphicon-calendar fa fa-calendar"></i>
-      
-      </div>
-      </div>
-      
-      </div>      
-      
-      <div className="row x_title">
-      <div className="col-md-2 col-sm-12 col-xs-12">                
-      </div>
-      
-      <div className="col-md-10 col-sm-12 col-xs-12">
-      <div> 
-      
-      <input type='file' name='image' />
-      
-      <Button type="primary" onClick={() => {
-        this.uploadPhoto();
-      }} >Upload photo </Button>
-      
-      
-      <span style={{ marginLeft: 8 }}>
-      
-      {hasSelected ? `Upload file ${selectedRowKeys.length} items` : ``}
-      
-      </span>
-      </div>
-      
-      
-      </div>
-      </div>      
-      
-      <div className="clearfix">
-      </div>
-      
-      </div>
-      </div>
-      </div>
-      
-    );
-  }
-}
-
-const mapStateToProps = (state : any) => {
+      return (   
+        
+        <div className="center-screen">
+        <div>
+        <div>
+        
+        <div>
+        
+        <div>
+        
+        </div>
+        <div>
+        <h3> <small>  Upload photos  - select a photo, crop and upload it.</small></h3>
+        </div>
+        
+        <div>          
+        <div>
   
-  if (state.users && state.p.users)
-  {    
+        </div>
+        </div>
+        
+        </div>      
+        
+        <div>
+        <div>                
+        </div>
+        
+        <div>
+        <div> 
+        
+        <Dropzone accept="image/jpeg, image/png" onDrop={(files) => {        
+          this.prepareFileToUpload(files);        
+        }}>
+        <p>Please drop your image file or click to select image to upload.</p>
+        </Dropzone>
+
+        <aside>
+        <h2> Upload my file </h2>
+        <ul>
+        {
+          this.state.files.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+        }
+        </ul>
+        </aside>             
+              
+        <Button type="primary" onClick={() => {
+          this.uploadPhoto();
+        }} >Upload photo </Button>
+        
+        </div>
+                
+        </div>
+        </div>      
+        
+        <div>
+        </div>
+        
+        </div>
+        </div>
+        </div>
+        
+      );
+    }
+  }
+
+  const mapStateToProps = (state : any) => {
+    
+    if (state.users && state.p.users)
+    {    
+      return {
+        photos: state.photos.filename,
+        success : state.photos.success,
+        timestamp : state.users.timestamp     
+      };
+    }
     return {
-      photos: state.photos.filename,
-      success : state.photos.success,
-      timestamp : state.users.timestamp     
+      photo : state
     };
   }
-  return {
-    photo : state
-  };
-}
 
-function mapDispatchToProps(dispatch) {
-  return {    
-    onPhotoUpload : (filename) => dispatch({ type: PHOTO_UPLOAD, payload: filename })	  
+  function mapDispatchToProps(dispatch) {
+    return {    
+      onPhotoUpload : (filename) => dispatch({ type: PHOTO_UPLOAD, payload: filename })	  
+    }
   }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainContent);
+  export default connect(mapStateToProps, mapDispatchToProps)(MainContent);
