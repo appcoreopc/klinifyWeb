@@ -108,41 +108,45 @@
       
       return (   
         
-        <div className="center-screen">
-                    
+        <div className="center-screen">                    
+       
           <div> 
           
-              <aside>
-              <h2> Upload my file </h2>
-              <ul>
-              {
-                this.state.files.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-              }
-              </ul>
-              </aside>             
-                    
-              <Button type="primary" onClick={() => {
-                this.uploadPhoto();
-              }} >Upload photo </Button>
-
-              <Button type="primary" onClick={this.cropImage}> Crop image </Button>
-            
           </div>
 
             
         <div style={{ width: '100%' }}>
-          <input type="file" onChange={this.onChange} />
-         
-          <br />
-          <br />
-          <Cropper
-            style={{ height: 400, width: '100%' }}
-            aspectRatio={16 / 9}
-            preview=".img-preview"
-            guides={false}
-            src={this.state.src}
-            ref={cropper => { this.cropper = cropper; }}
-          />
+
+           <div> 
+              <div>   
+
+              <input type="file" onChange={this.onChange} />
+
+              <span className='defaultBtn'>
+              <Button type="primary" onClick={() => {
+                this.uploadPhoto();
+              }} disabled={!this.state.cropResult} >Upload photo </Button>
+
+            </span>
+
+            <span className='defaultBtn'>  
+              <Button disabled={!this.state.src} type="primary" onClick={this.cropImage}> Crop image </Button>
+            </span>   
+            
+            <div className='cropDiv'>
+
+                  <Cropper
+                    style={{ height: 400, width: '100%' }}
+                    aspectRatio={16 / 9}
+                    preview=".img-preview"
+                    guides={false}
+                    src={this.state.src}
+                    ref={cropper => { this.cropper = cropper; }}
+                    
+                  />
+                </div>
+              </div>
+           </div>
         </div>
         
           <div>
