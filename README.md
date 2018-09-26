@@ -1,18 +1,18 @@
 # klinifyWeb
 
-Setup instruction 
+#1 Setup instruction 
 
-Installing all the depdencencies. 
+##2 Installing all the depdencencies. 
 
 Please run 
 
-npm install
+1. npm install
 
-Next run webpack to build and package
+Next run 'webpack' to build and package
 
-webpack 
+2. webpack 
 
-Then open 'index.html' 
+3 Then open 'index.html' 
 
 
 
