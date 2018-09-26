@@ -154,8 +154,16 @@
               <h1>Preview</h1>
               <div className="img-preview" style={{ width: '100%', float: 'left', height: 300 }} />
             </div>
-            <div className="box" style={{ width: '50%', float: 'right' }}>             
-              <img style={{ width: '100%' }} src={this.state.cropResult} alt="cropped image" />
+            <div className="box" style={{ width: '50%', float: 'right' }}>   
+            
+            { this.state.cropResult ? 
+              (<img style={{ width: '100%' }} src={this.state.cropResult} alt="cropped image" />) 
+              : 
+              ("")
+            }
+
+
+
             </div>
           </div>
           <br style={{ clear: 'both' }} />
