@@ -1,8 +1,6 @@
 # klinifyWeb
 
-## Setup instruction 
-
-## Installing all the depdencencies. 
+### Setup instruction - Installing all the depdencencies. 
 
 Please run 
 
