@@ -51,6 +51,25 @@
       };
       reader.readAsDataURL(files[0]);
     }
+
+    onChange2(e) {
+    
+      let files = e;
+
+      // if (e.dataTransfer) {
+      //   files = e.dataTransfer.files;
+      // } else if (e.target) {
+      //   files = e.target.files;
+      // }
+     
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.setState({ src: reader.result });
+      };
+      reader.readAsDataURL(files[0]);
+    }
+
+
   
     cropImage() {
       if (typeof this.cropper.getCroppedCanvas() === 'undefined') {
@@ -59,9 +78,14 @@
       this.setState({
         cropResult: this.cropper.getCroppedCanvas().toDataURL(),
       });
+
+      let imageurl = this.cropper.getCroppedCanvas().toDataURL();
+      console.log(imageurl);
+     
     }
   
     useDefaultImage() {
+
       this.setState({ src : this.src });
     }
    
@@ -85,19 +109,9 @@
       return (   
         
         <div className="center-screen">
-              
-            <div>
-            <h3> <small>  Upload photos  - select a photo, crop and upload it.</small></h3>
-            </div>
-                                
+                    
           <div> 
-            
-              <Dropzone accept="image/jpeg, image/png" onDrop={(files) => {        
-                this.prepareFileToUpload(files);        
-              }}>
-              <p>Please drop your image file or click to select image to upload.</p>
-              </Dropzone>
-
+          
               <aside>
               <h2> Upload my file </h2>
               <ul>
@@ -110,14 +124,15 @@
               <Button type="primary" onClick={() => {
                 this.uploadPhoto();
               }} >Upload photo </Button>
-            
 
+              <Button type="primary" onClick={this.cropImage}> Crop image </Button>
+            
           </div>
 
             
         <div style={{ width: '100%' }}>
           <input type="file" onChange={this.onChange} />
-          <button onClick={this.useDefaultImage}>Use default img</button>
+         
           <br />
           <br />
           <Cropper
@@ -130,22 +145,16 @@
           />
         </div>
         
-        <div>
-        <div className="box" style={{ width: '50%', float: 'right' }}>
-          <h1>Preview</h1>
-          <div className="img-preview" style={{ width: '100%', float: 'left', height: 300 }} />
-        </div>
-        <div className="box" style={{ width: '50%', float: 'right' }}>
-          <h1>
-            <span>Crop</span>
-            <button onClick={this.cropImage} style={{ float: 'right' }}>
-              Crop Image
-            </button>
-          </h1>
-          <img style={{ width: '100%' }} src={this.state.cropResult} alt="cropped image" />
-        </div>
-      </div>
-      <br style={{ clear: 'both' }} />
+          <div>
+            <div className="box" style={{ width: '50%', float: 'right' }}>
+              <h1>Preview</h1>
+              <div className="img-preview" style={{ width: '100%', float: 'left', height: 300 }} />
+            </div>
+            <div className="box" style={{ width: '50%', float: 'right' }}>             
+              <img style={{ width: '100%' }} src={this.state.cropResult} alt="cropped image" />
+            </div>
+          </div>
+          <br style={{ clear: 'both' }} />
 
         
         </div>
