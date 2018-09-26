@@ -30,7 +30,7 @@
       this.setState({
         cropResult : result
       })
-      console.log(result);      
+         
     }
     
     async executeFileUpload() : Promise<string> { 
@@ -63,18 +63,15 @@
       });
 
       let imageurl = this.cropper.getCroppedCanvas().toDataURL();
-      console.log(imageurl);
-     
+           
     }
   
     useDefaultImage() {
-
       this.setState({ src : this.src });
     }
    
     prepareFileToUpload = (files) => {        
-      console.log(files);     
-      this.setState({
+     this.setState({
         files
       });  
     }
