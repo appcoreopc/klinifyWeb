@@ -129,6 +129,23 @@
             ref={cropper => { this.cropper = cropper; }}
           />
         </div>
+        
+        <div>
+        <div className="box" style={{ width: '50%', float: 'right' }}>
+          <h1>Preview</h1>
+          <div className="img-preview" style={{ width: '100%', float: 'left', height: 300 }} />
+        </div>
+        <div className="box" style={{ width: '50%', float: 'right' }}>
+          <h1>
+            <span>Crop</span>
+            <button onClick={this.cropImage} style={{ float: 'right' }}>
+              Crop Image
+            </button>
+          </h1>
+          <img style={{ width: '100%' }} src={this.state.cropResult} alt="cropped image" />
+        </div>
+      </div>
+      <br style={{ clear: 'both' }} />
 
         
         </div>
