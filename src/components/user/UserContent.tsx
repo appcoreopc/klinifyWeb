@@ -5,7 +5,6 @@
   import Dropzone from 'react-dropzone';
   import Cropper from 'react-cropper';
 
-
   class MainContent extends React.Component<any, any> {
     
     src : string = '';
@@ -20,16 +19,17 @@
         cropResult: null
       };
 
-
       this.cropImage = this.cropImage.bind(this);
       this.onChange = this.onChange.bind(this);
       this.useDefaultImage = this.useDefaultImage.bind(this);
       this.src = 'images/child.jpg';
     }
-    
-    
+        
     uploadPhoto = async () => {        
       let result = await this.executeFileUpload();
+      this.setState({
+        cropResult : result
+      })
       console.log(result);      
     }
     
@@ -50,31 +50,14 @@
         this.setState({ src: reader.result });
       };
       reader.readAsDataURL(files[0]);
-    }
-
-    onChange2(e) {
-    
-      let files = e;
-
-      // if (e.dataTransfer) {
-      //   files = e.dataTransfer.files;
-      // } else if (e.target) {
-      //   files = e.target.files;
-      // }
-     
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.setState({ src: reader.result });
-      };
-      reader.readAsDataURL(files[0]);
-    }
-
-
+    }  
   
     cropImage() {
+      
       if (typeof this.cropper.getCroppedCanvas() === 'undefined') {
         return;
       }
+
       this.setState({
         cropResult: this.cropper.getCroppedCanvas().toDataURL(),
       });
@@ -96,16 +79,8 @@
       });  
     }
         
-    componentDidUpdate()
-    {
-      let data = this.props.users;
-    }
-    
-    public render() {
-      
-      var self = this;      
-      const { loading } = this.state;  
-      
+   public render() {
+           
       return (   
         
         <div className="center-screen">                    
