@@ -13,4 +13,8 @@ Next run 'webpack' to build and package
 3. Then open 'index.html' 
 
 
+Sample screen layout :-
+
+![alt text](https://github.com/appcoreopc/klinifyWeb/blob/master/screenshot.PNG)
+
 
